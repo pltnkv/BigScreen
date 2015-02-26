@@ -1,0 +1,10 @@
+target/
+*.iml
+fontconfig/
+node_modules/
+.idea/
+.tscache/
+.settings/
+.classpath
+.project
+*~

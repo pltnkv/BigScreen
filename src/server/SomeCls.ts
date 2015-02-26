@@ -1,6 +1,6 @@
 import SomeOtherCls = require('SomeOtherCls')
 
 export class SomeCls {
-    field = 300;
+    field = 500;
     c = new SomeOtherCls();
 }
