@@ -1,5 +1,3 @@
-import refs = require('refs')
-
 import path = require('path')
 
 var express = require('express')
@@ -11,15 +9,26 @@ var io = require('socket.io')(http)
 
 //--------express
 
-var staticViewsPath = '/../static/views'
+// development only
+if (app.get('env') == 'development') {
+    console.log('development')
+}
+
+// production only
+if (app.get('env') == 'production') {
+    console.log('production')
+}
+
+app.set('view cache', false);
+swig.setDefaults({ cache: false });
 
 app.engine('html', swig.renderFile)
 
 app.set('view engine', 'html')
-app.set('views', __dirname + '/../../static/views')
+app.set('views', __dirname + '/../static/views')
 app.set('io', io)
 
-app.use(express.static(__dirname + '/../../static'))
+app.use(express.static(__dirname + '/../static'))
 app.use(bodyParser.text({type: 'text/html'}))
 /*
  app.get('/', function (req, res) {
@@ -28,12 +37,16 @@ app.use(bodyParser.text({type: 'text/html'}))
  })*/
 
 app.get('/', function (req, res) {
-    res.render('index');
-});
+    res.render('index')
+})
 
 app.get('/client', function (req, res) {
-    res.render('client', {msg: 'val'});
-});
+    res.render('client', {msg: 'val'})
+})
+
+app.get('/controls', function (req, res) {
+    res.render('controls')
+})
 
 
 //-------sockets
