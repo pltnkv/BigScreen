@@ -48,6 +48,10 @@ app.get('/controls', function (req, res) {
     res.render('controls')
 })
 
+app.get('/screen', function (req, res) {
+    res.render('screen')
+})
+
 
 //-------sockets
 io.on('connection', function (socket) {

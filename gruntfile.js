@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
 
     var tsServerPath = 'src/server/'
-    var tsClientScreenPath = 'src/client_screen/'
-    var tsClientControlsPath = 'src/client_controls/'
+    var tsClientScreenPath = 'src/screen/'
+    var tsClientControlsPath = 'src/controls/'
 
     grunt.initConfig({
         ts: {
@@ -14,17 +14,17 @@ module.exports = function (grunt) {
                     fast: 'never'
                 }
             },
-            client_screen: {
+            screen: {
                 src: ['dts/client/*.d.ts', tsClientScreenPath + '**/*.ts'],
-                outDir: 'target/client_screen',
+                outDir: 'target/screen',
                 options: {
                     module: 'amd',
                     fast: 'never'
                 }
             },
-            client_controls: {
+            controls: {
                 src: ['dts/client/*.d.ts', tsClientControlsPath + '**/*.ts'],
-                outDir: 'target/client_controls',
+                outDir: 'target/controls',
                 options: {
                     module: 'amd',
                     fast: 'never'
@@ -41,19 +41,19 @@ module.exports = function (grunt) {
         },
 
         requirejs: {
-            client_controls: {
+            controls: {
                 options: {
-                    baseUrl: 'target/client_controls',
+                    baseUrl: 'target',
                     optimize: 'none',
-                    name: 'index',
+                    name: 'controls/index',
                     out: 'target/static/scripts/controls.js'
                 }
             },
-            client_screen: {
+            screen: {
                 options: {
-                    baseUrl: 'target/client_screen',
+                    baseUrl: 'target',
                     optimize: 'none',
-                    name: 'index',
+                    name: 'screen/index',
                     out: 'target/static/scripts/screen.js'
                 }
             }
@@ -64,12 +64,12 @@ module.exports = function (grunt) {
                 mangle: false,
                 beautify: true
             },
-            client_controls: {
+            controls: {
                 files: {
                     'target/static/scripts/controls.js': 'target/static/scripts/controls.js'
                 }
             },
-            client_screen: {
+            screen: {
                 files: {
                     'target/static/scripts/screen.js': 'target/static/scripts/screen.js'
                 }
@@ -85,13 +85,13 @@ module.exports = function (grunt) {
                 tasks: ['ts:server']
 
             },
-            client_screen: {
+            screen: {
                 files: [tsClientScreenPath + '**/*.ts'],
-                tasks: ['ts:client_screen', 'requirejs:client_screen', 'uglify:client_screen']
+                tasks: ['ts:screen', 'requirejs:screen', 'uglify:screen']
             },
-            client_controls: {
+            controls: {
                 files: [tsClientControlsPath + '**/*.ts'],
-                tasks: ['ts:client_controls', 'requirejs:client_controls', 'uglify:client_controls']
+                tasks: ['ts:controls', 'requirejs:controls', 'uglify:controls']
             },
             static: {
                 files: ['static/**/*'],
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
 
         concurrent: {
             dev: {
-                tasks: ['nodemon', 'watch:server', 'watch:client_screen', 'watch:client_controls', 'watch:static'],
+                tasks: ['nodemon', 'watch:server', 'watch:screen', 'watch:controls', 'watch:static'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -151,9 +151,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify')
 
     var compileTasks = ['clean:target', 'copy:static',
-        'ts:server', 'ts:client_screen', 'ts:client_controls',
-        'requirejs:client_screen', 'requirejs:client_controls',
-        'uglify:client_screen', 'uglify:client_controls']
+        'ts:server', 'ts:screen', 'ts:controls',
+        'requirejs:screen', 'requirejs:controls',
+        'uglify:screen', 'uglify:controls']
 
     grunt.registerTask('default', compileTasks.concat('concurrent'))
     grunt.registerTask('compile', compileTasks)
