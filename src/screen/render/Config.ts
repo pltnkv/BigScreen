@@ -1,0 +1,1 @@
+export var BLOCK_SIZE = 30
