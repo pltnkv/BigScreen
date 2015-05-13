@@ -1,0 +1,5 @@
+class Obstacle {
+
+}
+
+export = Obstacle

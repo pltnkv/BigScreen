@@ -1,0 +1,5 @@
+class Bullet {
+
+}
+
+export = Bullet
