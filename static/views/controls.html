@@ -2,21 +2,65 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,minimal-ui">
     <title>Controls</title>
-    <script src="/scripts/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/require.js"></script>
     <script src="/scripts/controls.js"></script>
-    <script>
-        requirejs.config({
-            baseUrl: 'scripts'
-        });
+    <style>
+        html, body, table {
+            margin: 0;
+            height: 100%;
+        }
 
-        // Start loading the main app file. Put all of
-        // your application logic in there.
-        requirejs(['index']);
-    </script>
+        table {
+            width: 100%;
+        }
+
+        table tr {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        #f_l {
+            background-color: #A9F5F2;
+        }
+
+        #f_r {
+            background-color: #81F7F3;
+        }
+
+        #b_l {
+            background-color: #A9E2F3;
+        }
+
+        #b_r {
+            background-color: #81DAF5;
+        }
+
+        #fire {
+            background-color: #FA8258;
+        }
+    </style>
 </head>
 <body>
-asdsdsss2
+<table>
+    <tr>
+        <td id="f_l">f-l</td>
+        <td id="fire" rowspan="2">fire</td>
+        <td id="f_r">f-r</td>
+    </tr>
+    <tr>
+        <td id="b_l">b-l</td>
+        <td id="b_r">b-r</td>
+    </tr>
+</table>
+
+<script>
+    requirejs.config({
+        baseUrl: 'scripts'
+    });
+    requirejs(['controls/index']);
+</script>
 </body>
 </html>

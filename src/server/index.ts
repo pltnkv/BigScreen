@@ -20,7 +20,7 @@ if (app.get('env') == 'production') {
 }
 
 app.set('view cache', false);
-swig.setDefaults({ cache: false });
+swig.setDefaults({cache: false});
 
 app.engine('html', swig.renderFile)
 
@@ -54,9 +54,13 @@ app.get('/screen', function (req, res) {
 
 
 //-------sockets
-io.on('connection', function (socket) {
-    socket.on('chat message', function (msg) {
-        io.emit('chat message', msg)
+io.on('connection', function (socket:SocketIO.Socket) {
+    console.log('Player connected')
+    socket.emit('game_started')
+
+    socket.on('cmd', function (msg) {
+//        io.emit('chat message', msg)
+        console.log('cmd', msg)
     })
 })
 
