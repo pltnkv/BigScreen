@@ -9,8 +9,10 @@ export function showBigMessage(args) {
 var canvasElement:HTMLCanvasElement
 
 export function getCanvas():HTMLCanvasElement {
-    if(!canvasElement) {
+    if (!canvasElement) {
         canvasElement = document.createElement("canvas");
+        canvasElement.setAttribute('width', window.innerWidth.toString())
+        canvasElement.setAttribute('height', window.innerHeight.toString())
         document.body.appendChild(canvasElement);
     }
     return canvasElement
