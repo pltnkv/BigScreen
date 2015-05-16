@@ -1,18 +1,22 @@
 import World = require('screen/World')
 import UI = require('screen/ui/UI')
+import Player = require('screen/core/Player')
 import TankType = require('screen/units/types/TankType')
 import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
-export function init() {
+export function init():void {
     World.init()
     //world.addObstacle()
-    //world.addObstacle()
-    //world.addObstacle()
-    //world.addTank()
-    World.addTank(TankType.DEFAULT, {x: 300, y: 50}, 30)
+}
 
+export function addPlayer(player:Player):void {
+    player.setTank(World.addTank(TankType.DEFAULT, {x: 300, y: 200}, 0))//позиции должны браться из карты в зависимости от кол-ва игроков
+}
+
+export function start() {
+    console.log('Game started')
     configureDebugDraw()
     runUpdateLoop()
 }
@@ -27,7 +31,6 @@ function configureDebugDraw() {
     World.b2world.SetDebugDraw(debugDraw)
 }
 
-
 function runUpdateLoop() {
     window.requestAnimationFrame(onRequestAnimationFrame)
 
@@ -35,7 +38,7 @@ function runUpdateLoop() {
 
     function onRequestAnimationFrame() {
         window.requestAnimationFrame(onRequestAnimationFrame)
-        
+
         var curTime = Date.now()
         var dt = curTime - prevTime
         prevTime = curTime
@@ -49,4 +52,3 @@ function runUpdateLoop() {
         World.b2world.DrawDebugData()
     }
 }
-

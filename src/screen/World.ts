@@ -1,4 +1,5 @@
 import TankType = require('screen/units/types/TankType')
+import Tank = require('screen/units/Tank')
 import Unit = require('screen/units/Unit')
 import UnitsFactory = require('screen/units/UnitsFactory')
 import IPoint = require('screen/commons/types/IPoint')
@@ -23,10 +24,11 @@ function createWalls() {
     //todo
 }
 
-export function addTank(tankType:TankType, position:IPoint, angle = 0):void {
+export function addTank(tankType:TankType, position:IPoint, angle = 0):Tank {
     var tank = UnitsFactory.produceTank(tankType)
     tank.setPositionAndAngle(position, angle)
     objects.push(tank)
+    return tank
 }
 
 export function addObstacle(position:IPoint, angle = 0):void {

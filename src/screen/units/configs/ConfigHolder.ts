@@ -3,12 +3,12 @@ import TankType = require('screen/units/types/TankType')
 
 var tanksConfigs:ITankConfig[] = []
 tanksConfigs[TankType.DEFAULT] = {
-    width: 60,
-    height: 40,
+    width: 50,
+    height: 36,
     angle: 0,
-    power: 60,
+    power: 15,
     maxSpeed: 60,
-    crawlersConfig: {width: 20, length: 50, y: 5, x: 20}
+    crawlersConfig: {width: 12, height: 60, y: 0, x: 18}
 }
 
 

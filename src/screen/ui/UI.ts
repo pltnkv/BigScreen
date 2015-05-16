@@ -1,3 +1,5 @@
+import UIText = require('screen/ui/UIText')
+
 export function addLog(args) {
 
 }
@@ -16,4 +18,8 @@ export function getCanvas():HTMLCanvasElement {
         document.body.appendChild(canvasElement);
     }
     return canvasElement
+}
+
+export function addText():UIText {
+    return new UIText()
 }

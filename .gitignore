@@ -1,6 +1,6 @@
 target/
 *.baseDir.ts
-*.iml
+.iml
 fontconfig/
 node_modules/
 .idea/
