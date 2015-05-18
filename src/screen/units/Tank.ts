@@ -127,10 +127,13 @@ class Tank extends Unit {
                 this.canFire = true
             }, FIRE_RATE)
 
-            var pos = this.body.GetWorldCenter()
+            var bulletPos = this.body.GetWorldPoint(new b2Vec2(0, -1))
             var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
-            direction.Normalize()
-            new Bullet(pos, this.body.GetAngle(), direction)
+            new Bullet(bulletPos, this.body.GetAngle(), direction)
+            direction = direction.Copy()
+            direction.Multiply(0.5)
+            direction.NegativeSelf()
+            this.body.ApplyImpulse(direction, this.body.GetWorldCenter())
         }
     }
 
