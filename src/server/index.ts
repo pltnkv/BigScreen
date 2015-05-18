@@ -40,15 +40,15 @@ app.use(bodyParser.text({type: 'text/html'}))
  })*/
 
 app.get('/', function (req, res) {
-    res.render('index')
-})
-
-app.get('/client', function (req, res) {
-    res.render('client', {msg: 'val'})
+    res.render('controls')
 })
 
 app.get('/controls', function (req, res) {
     res.render('controls')
+})
+
+app.get('/client', function (req, res) {
+    res.render('client', {msg: 'val'})
 })
 
 app.get('/screen', function (req, res) {
@@ -77,6 +77,7 @@ io.on('connection', function (socket:SocketIO.Socket) {
     stdinProcessor.addSocket(socket)
 })
 
-http.listen(3000, '192.168.0.104', function () {
+//http.listen(3000, '192.168.0.104', function () {
+http.listen(3000, function () {
     console.log('listening on *:3000')
 })

@@ -108,7 +108,7 @@ class Tank extends Unit {
 
     //возможно pos должен содержать уже приведенные размеры
     setPositionAndAngle(pos:IPoint, angle:number) {
-        //this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
+        this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
     }
 
     update() {
@@ -128,9 +128,9 @@ class Tank extends Unit {
             }, FIRE_RATE)
 
             var pos = this.body.GetWorldCenter()
-            console.log(pos, this.body.GetWorldVector(new b2Vec2(0, 0   )))
-            //console.log(pos, this.body.GetLocalPoint)
-            new Bullet(pos, null)
+            var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
+            direction.Normalize()
+            new Bullet(pos, this.body.GetAngle(), direction)
         }
     }
 
