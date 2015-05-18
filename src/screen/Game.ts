@@ -6,13 +6,21 @@ import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
+export var LOCAL_DEBUG = true
+
 export function init():void {
     World.init()
+    World.addBall({x: 500, y: 300})
     //world.addObstacle()
 }
 
-export function addPlayer(player:Player):void {
-    player.setTank(World.addTank(TankType.DEFAULT, {x: 300, y: 200}, 0))//позиции должны браться из карты в зависимости от кол-ва игроков
+export function addPlayers(players:Player[]):void {
+    var posX = 100
+    players.forEach(player => {
+        player.setTank(World.addTank(TankType.DEFAULT, {x: posX, y: 200}, 0))//позиции должны браться из карты в зависимости от кол-ва игроков
+        posX += 200
+    })
+
 }
 
 export function start() {

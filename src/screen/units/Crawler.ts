@@ -29,13 +29,13 @@ class Crawler {
         this.body = World.b2world.CreateBody(def)
 
         //initialize shape
-        var fixdef = new b2FixtureDef()
-        fixdef.density = 1
+        var fixDef = new b2FixtureDef()
+        fixDef.density = 1
         var shape = new b2PolygonShape()
         shape.SetAsBox(config.width / World.PX_IN_M / 2, config.height / World.PX_IN_M / 2)
-        fixdef.shape = shape
+        fixDef.shape = shape
 
-        this.body.CreateFixture(fixdef)
+        this.body.CreateFixture(fixDef)
 
         //create joint to connect wheel to body
         var jointDef = new b2PrismaticJointDef()

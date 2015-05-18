@@ -3,6 +3,8 @@ import Controls = require('controls/Controls')
 
 Channel.init(() => {
     console.log('Ready!')
+    document.getElementById('waitingMsg').style.display = 'none'
+    document.getElementById('controls').style.display = 'table'
     Controls.attachEvents()
 })
 
@@ -18,7 +20,6 @@ function preventDefaults() {
             e.preventDefault()
         }
     }
-
 
     document.oncontextmenu = function () {
         return false

@@ -1,6 +1,7 @@
 import Player = require('screen/core/Player')
 import ITankConfig = require('screen/units/configs/ITankConfig')
 import World = require('screen/World')
+import Bullet = require('screen/units/Bullet')
 import Unit = require('screen/units/Unit')
 import Crawler = require('screen/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
@@ -12,6 +13,8 @@ import b2Body = Box2D.Dynamics.b2Body
 import b2BodyDef = Box2D.Dynamics.b2BodyDef
 import b2FixtureDef = Box2D.Dynamics.b2FixtureDef
 import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+
+var FIRE_RATE = 1000
 
 class Tank extends Unit {
 
@@ -25,6 +28,7 @@ class Tank extends Unit {
     private config:ITankConfig
     private leftCrawler:Crawler
     private rightCrawler:Crawler
+    private canFire = true
 
     constructor(config:ITankConfig) {
         super()
@@ -36,7 +40,7 @@ class Tank extends Unit {
         //initialize body
         var def = new b2BodyDef()
         def.type = b2Body.b2_dynamicBody
-        //def.position = new b2Vec2(200 / World.PX_IN_M, 200 / World.PX_IN_M)//todo temp
+        def.position = new b2Vec2(200 / World.PX_IN_M, 200 / World.PX_IN_M)//todo temp
         //def.angle = math.radians(pars.angle)//todo temp
         def.linearDamping = 5  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
         //def.bullet = true //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
@@ -51,12 +55,14 @@ class Tank extends Unit {
         var shape = new b2PolygonShape()
         shape.SetAsBox(this.config.height / World.PX_IN_M / 2, this.config.width / World.PX_IN_M / 2)
         fixDef.shape = shape
-        this.body.CreateFixture(fixDef)
+        var fBody = this.body.CreateFixture(fixDef)
 
         //create gun
         shape.SetAsOrientedBox(1 / 8, 0.8, new b2Vec2(0, -0.6))//todo в конфиг, и может с отдельный объект
         fixDef.shape = shape//необязательно
-        this.body.CreateFixture(fixDef)
+        var fGun = this.body.CreateFixture(fixDef)
+
+        //this.body.DestroyFixture(fBody)
 
         //initialize Crawlers
         this.leftCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, true))
@@ -102,7 +108,7 @@ class Tank extends Unit {
 
     //возможно pos должен содержать уже приведенные размеры
     setPositionAndAngle(pos:IPoint, angle:number) {
-        this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
+        //this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
     }
 
     update() {
@@ -111,6 +117,21 @@ class Tank extends Unit {
 
         this.updateCrawler(this.leftCrawler, this.leftCrawlerAccelerate)
         this.updateCrawler(this.rightCrawler, this.rightCrawlerAccelerate)
+        this.updateGun()
+    }
+
+    private updateGun() {
+        if (this.fire && this.canFire) {
+            this.canFire = false
+            setTimeout(() => {
+                this.canFire = true
+            }, FIRE_RATE)
+
+            var pos = this.body.GetWorldCenter()
+            console.log(pos, this.body.GetWorldVector(new b2Vec2(0, 0   )))
+            //console.log(pos, this.body.GetLocalPoint)
+            new Bullet(pos, null)
+        }
     }
 
     private updateCrawler(crawler:Crawler, accelerate:AccelerateType):void {
@@ -134,6 +155,7 @@ class Tank extends Unit {
 
         //apply force to each wheel
         var position = crawler.body.GetWorldCenter()
+        //console.log(position.x*World.PX_IN_M)
         crawler.body.ApplyForce(crawler.body.GetWorldVector(new b2Vec2(forceVector[0], forceVector[1])), position)
     }
 }

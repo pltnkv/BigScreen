@@ -1,10 +1,37 @@
+import ActionType = require('screen/commons/types/ActionType')
 import Game = require('screen/Game')
 import Player = require('screen/core/Player')
 
+var socket:SocketIOClient.Socket
 var players:Player[] = []
 
 export function connect():void {
-    //todo
+    socket = io('', {query: 'type=screen'})
+    socket.on('start_game', function () {
+        onStartGame()
+    })
+
+    socket.on('join', function (playerId) {
+        console.log('join', playerId)
+        onPlayerJoin(playerId)
+    })
+    socket.on('leave', function (playerId) {
+        console.log('join', playerId)
+        onPlayerLeave(playerId)
+    })
+    socket.on('cmd', function (data:{pid:number; id: ActionType; down:boolean}) {
+        console.log('cmd', data)
+        var player = getPlayerById(data.pid)
+        if (player) {
+            player.applyCommand(data)
+        }
+    })
+    if(Game.LOCAL_DEBUG) {
+        enableLocalDebug()
+    }
+}
+
+function enableLocalDebug() {
     setTimeout(() => {
         onPlayerJoin(1)
         onStartGame()
@@ -33,7 +60,16 @@ function onPlayerLeave(id:number) {
     }
 }
 
+function getPlayerById(id:number):Player {
+    for (var i = 0; i < players.length; i++) {
+        if (id == players[i].id) {
+            return players[i]
+        }
+    }
+    return null
+}
+
 function onStartGame() {
-    players.forEach(player => Game.addPlayer(player))
+    Game.addPlayers(players)
     Game.start()
 }

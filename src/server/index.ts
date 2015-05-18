@@ -1,4 +1,7 @@
 import path = require('path')
+import PlayerClient = require('./PlayerClient')
+import ScreenClient = require('./ScreenClient')
+import stdinProcessor = require('./stdinProcessor')
 
 var express = require('express')
 var app = express()
@@ -52,18 +55,28 @@ app.get('/screen', function (req, res) {
     res.render('screen')
 })
 
+stdinProcessor.init()
 
 //-------sockets
+var screen
 io.on('connection', function (socket:SocketIO.Socket) {
-    console.log('Player connected')
-    socket.emit('game_started')
-
-    socket.on('cmd', function (msg) {
-//        io.emit('chat message', msg)
-        console.log('cmd', msg)
-    })
+    var clientType = socket.handshake.query.type
+    if (clientType == 'screen') {
+        console.log('Screen connected')
+        screen = new ScreenClient(socket)
+    } else if (clientType == 'player') {
+        if (!screen) {
+            console.error('ERROR: Screen should be connected before player')
+        } else {
+            console.log('Player connected')
+            new PlayerClient(screen, socket)
+        }
+    } else {
+        console.error('ERROR: Unknown client type')
+    }
+    stdinProcessor.addSocket(socket)
 })
 
-http.listen(3000, function () {
+http.listen(3000, '192.168.0.104', function () {
     console.log('listening on *:3000')
 })

@@ -1,7 +1,7 @@
 var socket:SocketIOClient.Socket
 
 export function init(readyCallback) {
-    socket = io()
+    socket = io('', {query: 'type=player'})
 
     socket.on('game_started', function (msg) {
         readyCallback()

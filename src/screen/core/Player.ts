@@ -1,6 +1,8 @@
 import Tank = require('screen/units/Tank')
 import Keyboard = require('screen/commons/Keyboard')
 import AccelerateType = require('screen/commons/types/AccelerateType')
+import ActionType = require('screen/commons/types/ActionType')
+import Game = require('screen/Game')
 
 class Player {
 
@@ -9,12 +11,35 @@ class Player {
 
     constructor(id:number) {
         this.id = id
-        this.enableDebugControls()
+        if (Game.LOCAL_DEBUG) {
+            this.enableDebugControls()
+        }
     }
 
     setTank(tank:Tank) {
         this.tank = tank
         tank.player = this
+    }
+
+    applyCommand(command:{id: ActionType; down:boolean}):void {
+
+        switch (command.id) {
+            case ActionType.FORWARD_LEFT:
+                this.tank.leftCrawlerAccelerate = command.down ? AccelerateType.FORWARD : AccelerateType.NONE
+                break
+            case ActionType.FORWARD_RIGHT:
+                this.tank.rightCrawlerAccelerate = command.down ? AccelerateType.FORWARD : AccelerateType.NONE
+                break
+            case ActionType.BACKWARD_LEFT:
+                this.tank.leftCrawlerAccelerate = command.down ? AccelerateType.BACKWARD : AccelerateType.NONE
+                break
+            case ActionType.BACKWARD_RIGHT:
+                this.tank.rightCrawlerAccelerate = command.down ? AccelerateType.BACKWARD : AccelerateType.NONE
+                break
+            case ActionType.FIRE:
+                this.tank.fire = command.down
+                break
+        }
     }
 
     enableDebugControls() {

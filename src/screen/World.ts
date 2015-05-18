@@ -1,5 +1,7 @@
 import TankType = require('screen/units/types/TankType')
 import Tank = require('screen/units/Tank')
+import Ball = require('screen/units/Ball')
+import Block = require('screen/units/Block')
 import Unit = require('screen/units/Unit')
 import UnitsFactory = require('screen/units/UnitsFactory')
 import IPoint = require('screen/commons/types/IPoint')
@@ -21,7 +23,17 @@ function createB2World() {
 }
 
 function createWalls() {
-    //todo
+    var w = window.innerWidth
+    var h = window.innerHeight
+    var wallSize = 10
+    new Block({x: w / 2, y: 0, width: w, height: wallSize})
+    new Block({x: w / 2, y: h, width: w, height: 10})
+    new Block({x: 0, y: h / 2, width: wallSize, height: h})
+    new Block({x: w, y: h / 2, width: wallSize, height: h})
+}
+
+export function addBall(position:IPoint) {
+    new Ball(position)
 }
 
 export function addTank(tankType:TankType, position:IPoint, angle = 0):Tank {
