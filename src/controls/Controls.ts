@@ -20,7 +20,6 @@ function registerControl(elementId:string, actionType:ActionType) {
         el.addEventListener("touchcancel", onEnd)
         el.addEventListener("touchleave", onEnd)
     } else {
-        console.log('asd2')
         el.addEventListener("mousedown", onStart)
         el.addEventListener("mouseup", onEnd)
     }

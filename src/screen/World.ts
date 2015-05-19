@@ -1,5 +1,6 @@
 import TankType = require('screen/units/types/TankType')
 import Tank = require('screen/units/Tank')
+import ContactListener = require('screen/ContactListener')
 import Ball = require('screen/units/Ball')
 import Block = require('screen/units/Block')
 import Unit = require('screen/units/Unit')
@@ -20,6 +21,7 @@ export function init() {
 
 function createB2World() {
     b2world = new b2World(new b2Vec2(0, 0), false)
+    b2world.SetContactListener(new ContactListener())
 }
 
 function createWalls() {

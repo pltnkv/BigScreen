@@ -20,10 +20,10 @@ class Tank extends Unit {
 
     body:b2Body
     player:Player
-
     leftCrawlerAccelerate = AccelerateType.NONE
     rightCrawlerAccelerate = AccelerateType.NONE
     fire = false
+    isTank = true
 
     private config:ITankConfig
     private leftCrawler:Crawler
@@ -39,12 +39,13 @@ class Tank extends Unit {
     private createBody() {
         //initialize body
         var def = new b2BodyDef()
+        def.userData = this
         def.type = b2Body.b2_dynamicBody
         def.position = new b2Vec2(200 / World.PX_IN_M, 200 / World.PX_IN_M)//todo temp
         //def.angle = math.radians(pars.angle)//todo temp
-        def.linearDamping = 5  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
+        def.linearDamping = 2.5  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
         //def.bullet = true //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
-        def.angularDamping = 8
+        def.angularDamping = 6.5
         this.body = World.b2world.CreateBody(def)
 
         //initialize shape
@@ -68,6 +69,7 @@ class Tank extends Unit {
         this.leftCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, true))
         this.rightCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, false))
     }
+
 
     private prepareCrawlerConfig(config:IRect, forLeft:boolean):IRect {
         var resConfig:IRect = jQuery.extend({}, config)
@@ -108,7 +110,7 @@ class Tank extends Unit {
 
     //возможно pos должен содержать уже приведенные размеры
     setPositionAndAngle(pos:IPoint, angle:number) {
-        this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
+        //this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
     }
 
     update() {
@@ -127,7 +129,7 @@ class Tank extends Unit {
                 this.canFire = true
             }, FIRE_RATE)
 
-            var bulletPos = this.body.GetWorldPoint(new b2Vec2(0, -1))
+            var bulletPos = this.body.GetWorldPoint(new b2Vec2(0, -1.2))
             var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
             new Bullet(bulletPos, this.body.GetAngle(), direction)
             direction = direction.Copy()
@@ -154,12 +156,14 @@ class Tank extends Unit {
         }
 
         //multiply by engine power, which gives us a force vector relative to the wheel
-        var forceVector = [this.config.power * baseVector[0], this.config.power * baseVector[1]]
+        var forceVector = new b2Vec2(baseVector[0], baseVector[1])
+        forceVector.Multiply(this.config.power)
 
         //apply force to each wheel
-        var position = crawler.body.GetWorldCenter()
+        var position = this.body.GetWorldPoint(new b2Vec2(crawler.config.x / World.PX_IN_M, crawler.config.y / World.PX_IN_M))
         //console.log(position.x*World.PX_IN_M)
-        crawler.body.ApplyForce(crawler.body.GetWorldVector(new b2Vec2(forceVector[0], forceVector[1])), position)
+        this.body.ApplyForce(this.body.GetWorldVector(forceVector), position)
+        //crawler.body.ApplyForce(crawler.body.GetWorldVector(forceVector)), position)
     }
 }
 
