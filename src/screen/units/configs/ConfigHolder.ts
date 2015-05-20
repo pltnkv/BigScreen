@@ -6,7 +6,7 @@ tanksConfigs[TankType.DEFAULT] = {
     width: 50,
     height: 36,
     angle: 0,
-    power: 15,
+    power: 20,
     maxSpeed: 60,
     crawlersConfig: {width: 12, height: 60, y: 0, x: 18}
 }

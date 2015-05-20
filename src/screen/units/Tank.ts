@@ -43,9 +43,8 @@ class Tank extends Unit {
         def.type = b2Body.b2_dynamicBody
         def.position = new b2Vec2(200 / World.PX_IN_M, 200 / World.PX_IN_M)//todo temp
         //def.angle = math.radians(pars.angle)//todo temp
-        def.linearDamping = 2.5  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
-        //def.bullet = true //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
-        def.angularDamping = 6.5
+        def.linearDamping = 3  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
+        def.angularDamping = 7
         this.body = World.b2world.CreateBody(def)
 
         //initialize shape
@@ -88,11 +87,8 @@ class Tank extends Unit {
     }
 
     getSpeedKMH():number {
-        //todo
-        /*var velocity = this.body.GetLinearVelocity()
-         var len = vectors.len([velocity.x, velocity.y])
-         return (len / 1000) * 3600*/
-        return 0
+        var velocity = this.body.GetLinearVelocity()
+        return (velocity.Length() / 1000) * 3600
     }
 
     setSpeed(speed:number):void {
@@ -110,13 +106,10 @@ class Tank extends Unit {
 
     //возможно pos должен содержать уже приведенные размеры
     setPositionAndAngle(pos:IPoint, angle:number) {
-        //this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
+        this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
     }
 
     update() {
-        this.leftCrawler.killSidewaysVelocity()
-        this.rightCrawler.killSidewaysVelocity()
-
         this.updateCrawler(this.leftCrawler, this.leftCrawlerAccelerate)
         this.updateCrawler(this.rightCrawler, this.rightCrawlerAccelerate)
         this.updateGun()
@@ -158,12 +151,8 @@ class Tank extends Unit {
         //multiply by engine power, which gives us a force vector relative to the wheel
         var forceVector = new b2Vec2(baseVector[0], baseVector[1])
         forceVector.Multiply(this.config.power)
-
-        //apply force to each wheel
         var position = this.body.GetWorldPoint(new b2Vec2(crawler.config.x / World.PX_IN_M, crawler.config.y / World.PX_IN_M))
-        //console.log(position.x*World.PX_IN_M)
         this.body.ApplyForce(this.body.GetWorldVector(forceVector), position)
-        //crawler.body.ApplyForce(crawler.body.GetWorldVector(forceVector)), position)
     }
 }
 

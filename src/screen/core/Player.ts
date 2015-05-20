@@ -22,18 +22,17 @@ class Player {
     }
 
     applyCommand(command:{id: ActionType; down:boolean}):void {
-
         switch (command.id) {
-            case ActionType.FORWARD_LEFT:
+            case ActionType.FORWARD_RIGHT:
                 this.tank.leftCrawlerAccelerate = command.down ? AccelerateType.FORWARD : AccelerateType.NONE
                 break
-            case ActionType.FORWARD_RIGHT:
+            case ActionType.FORWARD_LEFT:
                 this.tank.rightCrawlerAccelerate = command.down ? AccelerateType.FORWARD : AccelerateType.NONE
                 break
-            case ActionType.BACKWARD_LEFT:
+            case ActionType.BACKWARD_RIGHT:
                 this.tank.leftCrawlerAccelerate = command.down ? AccelerateType.BACKWARD : AccelerateType.NONE
                 break
-            case ActionType.BACKWARD_RIGHT:
+            case ActionType.BACKWARD_LEFT:
                 this.tank.rightCrawlerAccelerate = command.down ? AccelerateType.BACKWARD : AccelerateType.NONE
                 break
             case ActionType.FIRE:
@@ -44,16 +43,16 @@ class Player {
 
     enableDebugControls() {
         document.addEventListener('keydown', (e:KeyboardEvent) => {
-            if (e.keyCode == Keyboard.NUMPAD_7) {
+            if (e.keyCode == Keyboard.NUMPAD_9) {
                 this.tank.leftCrawlerAccelerate = AccelerateType.FORWARD
             }
-            if (e.keyCode == Keyboard.NUMPAD_4) {
+            if (e.keyCode == Keyboard.NUMPAD_6) {
                 this.tank.leftCrawlerAccelerate = AccelerateType.BACKWARD
             }
-            if (e.keyCode == Keyboard.NUMPAD_9) {
+            if (e.keyCode == Keyboard.NUMPAD_7) {
                 this.tank.rightCrawlerAccelerate = AccelerateType.FORWARD
             }
-            if (e.keyCode == Keyboard.NUMPAD_6) {
+            if (e.keyCode == Keyboard.NUMPAD_4) {
                 this.tank.rightCrawlerAccelerate = AccelerateType.BACKWARD
             }
             if (e.keyCode == Keyboard.NUMPAD_8) {
@@ -62,16 +61,16 @@ class Player {
         })
 
         document.addEventListener('keyup', (e:KeyboardEvent) => {
-            if (e.keyCode == Keyboard.NUMPAD_7) {
-                this.tank.leftCrawlerAccelerate = AccelerateType.NONE
-            }
-            if (e.keyCode == Keyboard.NUMPAD_4) {
-                this.tank.leftCrawlerAccelerate = AccelerateType.NONE
-            }
             if (e.keyCode == Keyboard.NUMPAD_9) {
-                this.tank.rightCrawlerAccelerate = AccelerateType.NONE
+                this.tank.leftCrawlerAccelerate = AccelerateType.NONE
             }
             if (e.keyCode == Keyboard.NUMPAD_6) {
+                this.tank.leftCrawlerAccelerate = AccelerateType.NONE
+            }
+            if (e.keyCode == Keyboard.NUMPAD_7) {
+                this.tank.rightCrawlerAccelerate = AccelerateType.NONE
+            }
+            if (e.keyCode == Keyboard.NUMPAD_4) {
                 this.tank.rightCrawlerAccelerate = AccelerateType.NONE
             }
             if (e.keyCode == Keyboard.NUMPAD_8) {
