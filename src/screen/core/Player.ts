@@ -4,6 +4,8 @@ import AccelerateType = require('screen/commons/types/AccelerateType')
 import ActionType = require('screen/commons/types/ActionType')
 import Game = require('screen/Game')
 
+var isFirstPlayer = true
+
 class Player {
 
     id:number
@@ -11,7 +13,8 @@ class Player {
 
     constructor(id:number) {
         this.id = id
-        if (Game.LOCAL_DEBUG) {
+        if (Game.LOCAL_DEBUG && isFirstPlayer) {
+            isFirstPlayer = false
             this.enableDebugControls()
         }
     }

@@ -3,6 +3,7 @@ import ITankConfig = require('screen/units/configs/ITankConfig')
 import World = require('screen/World')
 import Bullet = require('screen/units/Bullet')
 import Unit = require('screen/units/Unit')
+import UnitName = require('screen/units/types/UnitName')
 import Crawler = require('screen/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
 import IRect = require('screen/commons/types/IRect')
@@ -18,7 +19,6 @@ var FIRE_RATE = 1000
 
 class Tank extends Unit {
 
-    body:b2Body
     player:Player
     leftCrawlerAccelerate = AccelerateType.NONE
     rightCrawlerAccelerate = AccelerateType.NONE
@@ -31,7 +31,7 @@ class Tank extends Unit {
     private canFire = true
 
     constructor(config:ITankConfig) {
-        super()
+        super(UnitName.TANK)
         this.config = config
         this.createBody()
     }
@@ -57,6 +57,10 @@ class Tank extends Unit {
         fixDef.shape = shape
         var fBody = this.body.CreateFixture(fixDef)
 
+        /* setTimeout(() => {
+         this.body.DestroyFixture(fBody)
+         }, 1000)*/
+
         //create gun
         shape.SetAsOrientedBox(1 / 8, 0.8, new b2Vec2(0, -0.6))//todo в конфиг, и может с отдельный объект
         fixDef.shape = shape//необязательно
@@ -69,6 +73,17 @@ class Tank extends Unit {
         this.rightCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, false))
     }
 
+    private createCrawler() {
+        /* var fixDef = new b2FixtureDef()
+         fixDef.density = 1.0
+         fixDef.friction = 0.5
+         fixDef.restitution = 0.4
+
+         var shape = new b2PolygonShape()
+         shape.SetAsOrientedBox(this.config.width / World.PX_IN_M / 2, this.config.height / World.PX_IN_M / 2, new b2Vec2(this.config.x / World.PX_IN_M, this.config.y / World.PX_IN_M), this.tank.body.GetAngle())
+         fixDef.shape = shape
+         this.tank.body.CreateFixture(fixDef)*/
+    }
 
     private prepareCrawlerConfig(config:IRect, forLeft:boolean):IRect {
         var resConfig:IRect = jQuery.extend({}, config)
@@ -124,7 +139,7 @@ class Tank extends Unit {
 
             var bulletPos = this.body.GetWorldPoint(new b2Vec2(0, -1.2))
             var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
-            new Bullet(bulletPos, this.body.GetAngle(), direction)
+            World.addUnit(new Bullet(bulletPos, this.body.GetAngle(), direction, this))
             direction = direction.Copy()
             direction.Multiply(0.5)
             direction.NegativeSelf()

@@ -1,6 +1,7 @@
 import TankType = require('screen/units/types/TankType')
 import Tank = require('screen/units/Tank')
 import ContactListener = require('screen/ContactListener')
+import Contacts = require('screen/Contacts')
 import Ball = require('screen/units/Ball')
 import Block = require('screen/units/Block')
 import Unit = require('screen/units/Unit')
@@ -12,7 +13,11 @@ import b2World = Box2D.Dynamics.b2World
 export var PX_IN_M = 30
 export var b2world:b2World
 
-var objects:Unit[] = []
+var units:Unit[] = []
+
+export function addUnit(unit:Unit) {
+    units.push(unit)
+}
 
 export function init() {
     createB2World()
@@ -20,28 +25,29 @@ export function init() {
 }
 
 function createB2World() {
+
     b2world = new b2World(new b2Vec2(0, 0), false)
-    b2world.SetContactListener(new ContactListener())
+    b2world.SetContactListener(ContactListener.get())
 }
 
 function createWalls() {
     var w = window.innerWidth
     var h = window.innerHeight
     var wallSize = 10
-    new Block({x: w / 2, y: 0, width: w, height: wallSize})
-    new Block({x: w / 2, y: h, width: w, height: 10})
-    new Block({x: 0, y: h / 2, width: wallSize, height: h})
-    new Block({x: w, y: h / 2, width: wallSize, height: h})
+    addUnit(new Block({x: w / 2, y: 0, width: w, height: wallSize}))
+    addUnit(new Block({x: w / 2, y: h, width: w, height: 10}))
+    addUnit(new Block({x: 0, y: h / 2, width: wallSize, height: h}))
+    addUnit(new Block({x: w, y: h / 2, width: wallSize, height: h}))
 }
 
 export function addBall(position:IPoint) {
-    new Ball(position)
+    addUnit(new Ball(position))
 }
 
 export function addTank(tankType:TankType, position:IPoint, angle = 0):Tank {
     var tank = UnitsFactory.produceTank(tankType)
     tank.setPositionAndAngle(position, angle)
-    objects.push(tank)
+    addUnit(tank)
     return tank
 }
 
@@ -50,7 +56,15 @@ export function addObstacle(position:IPoint, angle = 0):void {
 }
 
 export function update(deltaTime:number):void {
-    for (var i = 0, l = objects.length; i < l; i++) {
-        objects[i].update(deltaTime)
+    //пробегаемся по всем объектам дважды, можно оптимизировать
+    units = units.filter(unit => {
+        if (unit.removed) {
+            unit.destroyBody()
+        }
+        return !unit.removed
+    })
+
+    for (var i = 0, l = units.length; i < l; i++) {
+        units[i].update(deltaTime)
     }
 }

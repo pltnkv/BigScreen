@@ -1,5 +1,8 @@
 import World = require('screen/World')
 import IRect = require('screen/commons/types/IRect')
+import Unit = require('screen/units/Unit')
+import UnitName = require('screen/units/types/UnitName')
+import Tank = require('screen/units/Tank')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -11,13 +14,16 @@ var BULLET_WIDTH = 5
 var BULLET_HEIGHT = 10
 var SPEED = 15
 
-class Bullet {
+class Bullet extends Unit {
 
-    body:b2Body
+    parentTank:Tank
 
-    constructor(pos:b2Vec2, angle:number, direction:b2Vec2) {
+    constructor(pos:b2Vec2, angle:number, direction:b2Vec2, parentTank:Tank) {
+        super(UnitName.BULLET)
+        this.parentTank = parentTank
         //initialize body
         var def = new b2BodyDef()
+        def.userData = this
         def.type = b2Body.b2_dynamicBody
         def.bullet = true
         def.angle = angle

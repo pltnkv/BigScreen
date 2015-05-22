@@ -34,6 +34,9 @@ export function connect():void {
 function enableLocalDebug() {
     setTimeout(() => {
         onPlayerJoin(1)
+        onPlayerJoin(2)
+        onPlayerJoin(3)
+        onPlayerJoin(4)
         onStartGame()
     })
 }

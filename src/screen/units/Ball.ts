@@ -1,5 +1,7 @@
 import World = require('screen/World')
 import IPoint = require('screen/commons/types/IPoint')
+import UnitName = require('screen/units/types/UnitName')
+import Unit = require('screen/units/Unit')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -10,17 +12,17 @@ import b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
 
 var RADIUS_IN_PX = 20
 
-class Ball {
-
-    body:b2Body
+class Ball extends Unit {
 
     constructor(position:IPoint) {
+        super(UnitName.BALL)
         this.createBody(position)
     }
 
     private createBody(position:IPoint) {
         //initialize body
         var def = new b2BodyDef()
+        def.userData = this
         def.linearDamping = 1
         def.angularDamping = 1
         def.type = b2Body.b2_dynamicBody
