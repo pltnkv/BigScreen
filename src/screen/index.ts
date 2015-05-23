@@ -17,5 +17,6 @@ ServerConnection.connect()
 
 /** Подзадачи
  * толкать мяч пулей
+ * создать папку world и перенести туда units, Contacts, CL,
  */
 

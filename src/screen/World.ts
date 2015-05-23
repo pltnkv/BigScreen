@@ -67,4 +67,13 @@ export function update(deltaTime:number):void {
     for (var i = 0, l = units.length; i < l; i++) {
         units[i].update(deltaTime)
     }
+
+    /*
+    for (var b:b2Body=world.GetBodyList(); b; b=b.GetNext())
+     {
+     if (b.GetUserData()=="remove") {
+     world.DestroyBody(b);
+     }
+     }
+     */
 }

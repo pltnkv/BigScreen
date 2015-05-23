@@ -32,7 +32,7 @@ class Bullet extends Unit {
 
         //initialize shape
         var fixDef = new b2FixtureDef()
-        fixDef.isSensor = true
+        //fixDef.isSensor = true
         var shape = new b2PolygonShape()
         shape.SetAsBox(BULLET_WIDTH / World.PX_IN_M / 2, BULLET_HEIGHT / World.PX_IN_M / 2)
         fixDef.shape = shape
