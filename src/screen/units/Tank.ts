@@ -13,9 +13,10 @@ import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
 import b2BodyDef = Box2D.Dynamics.b2BodyDef
 import b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+import b2Fixture = Box2D.Dynamics.b2Fixture
 import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
 
-var FIRE_RATE = 1000
+var FIRE_RATE = 300
 
 class Tank extends Unit {
 
@@ -23,7 +24,7 @@ class Tank extends Unit {
     leftCrawlerAccelerate = AccelerateType.NONE
     rightCrawlerAccelerate = AccelerateType.NONE
     fire = false
-    isTank = true
+    health = 100
 
     private config:ITankConfig
     private leftCrawler:Crawler
@@ -130,6 +131,38 @@ class Tank extends Unit {
         this.updateGun()
     }
 
+    addDamage(damage:number, fixture:b2Fixture):void {
+        var bodyDamage:number
+        if (this.leftCrawler.fixture == fixture) {
+            bodyDamage = this.applyDamageToCrawler(this.leftCrawler, damage)
+        } else if (this.rightCrawler.fixture == fixture) {
+            bodyDamage = this.applyDamageToCrawler(this.rightCrawler, damage)
+        } else {
+            this.rightCrawler.applyDamage(damage * 0.2)
+            this.rightCrawler.applyDamage(damage * 0.2)
+            bodyDamage = damage * 0.6
+        }
+        this.applyDamageToBody(bodyDamage)
+    }
+
+    private applyDamageToBody(damage:number):void {
+        this.health -= damage
+        console.log('TANK.health', this.health)
+        if (this.health <= 0) {
+            this.removed = true
+            console.log(this.player.id, 'TANK DESTROYED')
+        }
+    }
+
+    private applyDamageToCrawler(crawler:Crawler, damage:number):number {
+        if (crawler.destroyed) {
+            return damage * 0.6
+        } else {
+            crawler.applyDamage(damage * 0.8)
+            return damage * 0.2
+        }
+    }
+
     private updateGun() {
         if (this.fire && this.canFire) {
             this.canFire = false
@@ -141,13 +174,18 @@ class Tank extends Unit {
             var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
             World.addUnit(new Bullet(bulletPos, this.body.GetAngle(), direction, this))
             direction = direction.Copy()
-            direction.Multiply(0.5)
+            direction.Multiply(0.2)
             direction.NegativeSelf()
             this.body.ApplyImpulse(direction, this.body.GetWorldCenter())
         }
     }
 
     private updateCrawler(crawler:Crawler, accelerate:AccelerateType):void {
+        if(crawler.destroyed) {
+            //todo снижать мощность в зависимости от поврежденности
+            return
+        }
+
         var baseVector
         if (accelerate == AccelerateType.FORWARD) {
             baseVector = [0, -1]

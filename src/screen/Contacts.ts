@@ -21,6 +21,7 @@ export function init(regBeginContact, regPreSolve, regPostSolve) {
         var tank:Tank = tankFixture.GetBody().GetUserData()
         if (bullet.parentTank != tank) {//todo не нужно
             console.log('bullet.parentTank != tank')
+            tank.addDamage(bullet.damage, tankFixture)
             bulletFixture.GetBody().GetUserData().removed = true
             //todo нанести повреждение танку
         }
@@ -30,16 +31,18 @@ export function init(regBeginContact, regPreSolve, regPostSolve) {
     regBeginContact(UnitName.BULLET, (contact:b2Contact, bulletFixture:b2Fixture, anyFixture:b2Fixture) => {
         console.log('UnitName.BULLET')
         bulletFixture.GetBody().GetUserData().removed = true
+        //if is contact of two bullets
+        if(anyFixture.GetBody().GetUserData().name == UnitName.BULLET) {
+            anyFixture.GetBody().GetUserData().removed = true
+        }
     })
 
     //PRE SOLVE
     //todo не нужно
-    regPostSolve(UnitName.BULLET, UnitName.TANK, (contact:b2Contact, oldManifold:b2Manifold, bulletFixture:b2Fixture, tankFixture:b2Fixture) => {
+    regPreSolve(UnitName.BULLET, UnitName.TANK, (contact:b2Contact, oldManifold:b2Manifold, bulletFixture:b2Fixture, tankFixture:b2Fixture) => {
         var bullet:Bullet = bulletFixture.GetBody().GetUserData()
         var tank:Tank = tankFixture.GetBody().GetUserData()
-        console.log('1')
         if (bullet.parentTank == tank) {
-            console.log('2')
             contact.SetEnabled(false)
         }
     })

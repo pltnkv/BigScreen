@@ -17,6 +17,7 @@ var SPEED = 15
 class Bullet extends Unit {
 
     parentTank:Tank
+    damage = 10
 
     constructor(pos:b2Vec2, angle:number, direction:b2Vec2, parentTank:Tank) {
         super(UnitName.BULLET)
@@ -32,6 +33,7 @@ class Bullet extends Unit {
 
         //initialize shape
         var fixDef = new b2FixtureDef()
+        fixDef.density = 4
         //fixDef.isSensor = true
         var shape = new b2PolygonShape()
         shape.SetAsBox(BULLET_WIDTH / World.PX_IN_M / 2, BULLET_HEIGHT / World.PX_IN_M / 2)

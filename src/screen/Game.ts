@@ -6,7 +6,7 @@ import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
-export var LOCAL_DEBUG = true
+export var LOCAL_DEBUG = false
 
 export function init():void {
     World.init()
