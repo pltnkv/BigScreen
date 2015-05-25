@@ -1,5 +1,5 @@
-import UnitName = require('screen/units/types/UnitName')
-import Contacts = require('screen/Contacts')
+import UnitName = require('screen/world/units/types/UnitName')
+import Contacts = require('screen/world/Contacts')
 
 import b2ContactListener = Box2D.Dynamics.b2ContactListener
 import b2Contact = Box2D.Dynamics.Contacts.b2Contact

@@ -1,7 +1,7 @@
-import World = require('screen/World')
+import World = require('screen/world/World')
 import IPoint = require('screen/commons/types/IPoint')
-import UnitName = require('screen/units/types/UnitName')
-import Unit = require('screen/units/Unit')
+import UnitName = require('screen/world/units/types/UnitName')
+import Unit = require('screen/world/units/Unit')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body

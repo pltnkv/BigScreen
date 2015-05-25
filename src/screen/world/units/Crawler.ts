@@ -1,5 +1,5 @@
-import Tank = require('screen/units/Tank')
-import World = require('screen/World')
+import Tank = require('screen/world/units/Tank')
+import World = require('screen/world/World')
 import IRect = require('screen/commons/types/IRect')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2

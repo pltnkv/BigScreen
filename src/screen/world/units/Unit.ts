@@ -1,5 +1,5 @@
-import UnitName = require('screen/units/types/UnitName')
-import World = require('screen/World')
+import UnitName = require('screen/world/units/types/UnitName')
+import World = require('screen/world/World')
 
 import b2Body = Box2D.Dynamics.b2Body
 

@@ -1,12 +1,12 @@
-import World = require('screen/World')
+import World = require('screen/world/World')
 import UI = require('screen/ui/UI')
 import Player = require('screen/core/Player')
-import TankType = require('screen/units/types/TankType')
+import TankType = require('screen/world/units/types/TankType')
 import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
-export var LOCAL_DEBUG = false
+export var LOCAL_DEBUG = true
 
 export function init():void {
     World.init()
@@ -20,7 +20,6 @@ export function addPlayers(players:Player[]):void {
         player.setTank(World.addTank(TankType.DEFAULT, {x: posX, y: 200}, 0))//позиции должны браться из карты в зависимости от кол-ва игроков
         posX += 200
     })
-
 }
 
 export function start() {

@@ -1,8 +1,8 @@
-import World = require('screen/World')
+import World = require('screen/world/World')
 import IRect = require('screen/commons/types/IRect')
-import Unit = require('screen/units/Unit')
-import UnitName = require('screen/units/types/UnitName')
-import Tank = require('screen/units/Tank')
+import Unit = require('screen/world/units/Unit')
+import UnitName = require('screen/world/units/types/UnitName')
+import Tank = require('screen/world/units/Tank')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body

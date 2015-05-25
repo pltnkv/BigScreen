@@ -1,9 +1,9 @@
-import ContactListener = require('screen/ContactListener')
-import UnitName = require('screen/units/types/UnitName')
-import World = require('screen/World')
-import Tank = require('screen/units/Tank')
-import Bullet = require('screen/units/Bullet')
-import Ball = require('screen/units/Ball')
+import ContactListener = require('screen/world/ContactListener')
+import UnitName = require('screen/world/units/types/UnitName')
+import World = require('screen/world/World')
+import Tank = require('screen/world/units/Tank')
+import Bullet = require('screen/world/units/Bullet')
+import Ball = require('screen/world/units/Ball')
 
 import b2Contact = Box2D.Dynamics.Contacts.b2Contact
 import b2Fixture = Box2D.Dynamics.b2Fixture

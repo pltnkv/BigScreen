@@ -1,4 +1,4 @@
-import Tank = require('screen/units/Tank')
+import Tank = require('screen/world/units/Tank')
 import Keyboard = require('screen/commons/Keyboard')
 import AccelerateType = require('screen/commons/types/AccelerateType')
 import ActionType = require('screen/commons/types/ActionType')

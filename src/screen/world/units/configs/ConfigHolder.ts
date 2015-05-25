@@ -1,5 +1,5 @@
-import ITankConfig = require('screen/units/configs/ITankConfig')
-import TankType = require('screen/units/types/TankType')
+import ITankConfig = require('screen/world/units/configs/ITankConfig')
+import TankType = require('screen/world/units/types/TankType')
 
 var tanksConfigs:ITankConfig[] = []
 tanksConfigs[TankType.DEFAULT] = {
