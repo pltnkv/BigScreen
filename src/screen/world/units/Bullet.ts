@@ -17,7 +17,7 @@ var SPEED = 15
 class Bullet extends Unit {
 
     parentTank:Tank
-    damage = 10
+    damage = 40
 
     constructor(pos:b2Vec2, angle:number, direction:b2Vec2, parentTank:Tank) {
         super(UnitName.BULLET)

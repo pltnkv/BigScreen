@@ -8,6 +8,7 @@ import Crawler = require('screen/world/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
 import IRect = require('screen/commons/types/IRect')
 import AccelerateType = require('screen/commons/types/AccelerateType')
+import HealthIndicator = require('screen/graphics/HealthIndicator')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -16,7 +17,7 @@ import b2FixtureDef = Box2D.Dynamics.b2FixtureDef
 import b2Fixture = Box2D.Dynamics.b2Fixture
 import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
 
-var FIRE_RATE = 300
+var FIRE_RATE = 1000
 
 class Tank extends Unit {
 
@@ -31,10 +32,13 @@ class Tank extends Unit {
     private rightCrawler:Crawler
     private canFire = true
 
+    private healthIndicator:HealthIndicator
+
     constructor(config:ITankConfig) {
         super(UnitName.TANK)
         this.config = config
         this.createBody()
+        this.healthIndicator = new HealthIndicator(this)
     }
 
     private createBody() {

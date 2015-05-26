@@ -11,7 +11,15 @@ export var LOCAL_DEBUG = true
 export function init():void {
     World.init()
     World.addBall({x: 500, y: 300})
-    //world.addObstacle()
+    getDatGUI()
+}
+
+var gui:dat.GUI
+export function getDatGUI():dat.GUI {
+    if (!gui) {
+        gui = new dat.GUI()
+    }
+    return gui
 }
 
 export function addPlayers(players:Player[]):void {
@@ -36,6 +44,15 @@ function configureDebugDraw() {
     debugDraw.SetLineThickness(1.0)
     debugDraw.SetFlags(b2DebugDraw.e_shapeBit)
     World.b2world.SetDebugDraw(debugDraw)
+}
+
+function configureRender() {
+    /* var renderer = PIXI.autoDetectRenderer(800, 600, { transparent: true });
+     document.body.appendChild(renderer.view);
+
+     // create the root of the scene graph
+     var stage = new PIXI.Container();
+     new PIXI.Texture.fromFrame()*/
 }
 
 function runUpdateLoop() {
