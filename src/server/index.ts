@@ -78,6 +78,6 @@ io.on('connection', function (socket:SocketIO.Socket) {
 })
 
 //http.listen(3000, '192.168.0.104', function () {
-http.listen(3000, '192.168.0.101', function () {
+http.listen(3000, 'localhost', function () {
     console.log('listening on *:3000')
 })
