@@ -25,7 +25,6 @@ export function init() {
 }
 
 function createB2World() {
-
     b2world = new b2World(new b2Vec2(0, 0), false)
     b2world.SetContactListener(ContactListener.get())
 }
@@ -76,4 +75,11 @@ export function update(deltaTime:number):void {
      }
      }
      */
+}
+
+export function draw():void {
+    //todo отрисовываться могут не только объекты физического мира, например фоновые анимации или взрывы
+    for (var i = 0, l = units.length; i < l; i++) {
+        units[i].draw()
+    }
 }

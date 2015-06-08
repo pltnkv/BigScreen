@@ -2,17 +2,50 @@ import World = require('screen/world/World')
 import UI = require('screen/ui/UI')
 import Player = require('screen/core/Player')
 import TankType = require('screen/world/units/types/TankType')
+import MapLoader = require('screen/world/map/MapLoader')
+import Layers = require('screen/graphics/Layers')
+
 import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
+var renderer:PIXI.PixiRenderer
+
 export var LOCAL_DEBUG = true
-export var stage:PIXI.Container
+export var stage
 
 export function init():void {
     World.init()
-    World.addBall({x: 500, y: 300})
+    configureDebugDraw()
+    configureRender()
+    Layers.init(stage)
+    loadMap()
     getDatGUI()
+}
+
+function configureDebugDraw() {
+    var debugDraw = new b2DebugDraw()
+    debugDraw.SetSprite(UI.getDebugCanvas().getContext("2d"))
+    debugDraw.SetDrawScale(World.PX_IN_M)
+    debugDraw.SetFillAlpha(0.5)
+    debugDraw.SetLineThickness(1.0)
+    debugDraw.SetFlags(b2DebugDraw.e_shapeBit)
+    World.b2world.SetDebugDraw(debugDraw)
+}
+
+function configureRender() {
+    renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+        transparent: true,
+        view: UI.getMainCanvas()
+    })
+    document.body.appendChild(renderer.view)
+    stage = new PIXI.Container()
+}
+
+
+function loadMap() {
+    MapLoader.load()
+    World.addBall({x: 500, y: 300})
 }
 
 var gui:dat.GUI
@@ -33,44 +66,7 @@ export function addPlayers(players:Player[]):void {
 
 export function start() {
     console.log('Game started')
-    //configureDebugDraw()
-    configureRender()
     runUpdateLoop()
-}
-
-function configureDebugDraw() {
-    var debugDraw = new b2DebugDraw()
-    debugDraw.SetSprite(UI.getDebugCanvas().getContext("2d"))
-    debugDraw.SetDrawScale(World.PX_IN_M)
-    debugDraw.SetFillAlpha(0.5)
-    debugDraw.SetLineThickness(1.0)
-    debugDraw.SetFlags(b2DebugDraw.e_shapeBit)
-    World.b2world.SetDebugDraw(debugDraw)
-}
-
-var renderer
-function configureRender() {
-    renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {transparent: true})
-    document.body.appendChild(renderer.view)
-
-    // create the root of the scene graph
-    stage = new PIXI.Container()
-
-    // create a texture from an image path
-    var texture = PIXI.Texture.fromImage('images/asserts/map.png')
-
-    // create a new Sprite using the texture
-    var bunny = new PIXI.Sprite(texture)
-
-    // center the sprite's anchor point
-    //bunny.anchor.x = 0.5;
-    //bunny.anchor.y = 0.5;
-
-    // move the sprite to the center of the screen
-    bunny.position.x = 200;
-    bunny.position.y = 150;
-
-    stage.addChild(bunny);
 }
 
 function runUpdateLoop() {
@@ -92,6 +88,7 @@ function runUpdateLoop() {
 
         //let box2d draw it's bodies
         World.b2world.DrawDebugData()
+        World.draw()
         renderer.render(stage)
     }
 }

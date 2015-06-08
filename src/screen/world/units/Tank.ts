@@ -39,6 +39,7 @@ class Tank extends Unit {
         this.config = config
         this.createBody()
         this.healthIndicator = new HealthIndicator(this)
+        this.createVisual()
     }
 
     private createBody() {
@@ -60,34 +61,16 @@ class Tank extends Unit {
         var shape = new b2PolygonShape()
         shape.SetAsBox(this.config.height / World.PX_IN_M / 2, this.config.width / World.PX_IN_M / 2)
         fixDef.shape = shape
-        var fBody = this.body.CreateFixture(fixDef)
-
-        /* setTimeout(() => {
-         this.body.DestroyFixture(fBody)
-         }, 1000)*/
+        this.body.CreateFixture(fixDef)
 
         //create gun
         shape.SetAsOrientedBox(1 / 8, 0.8, new b2Vec2(0, -0.6))//todo в конфиг, и может с отдельный объект
         fixDef.shape = shape//необязательно
-        var fGun = this.body.CreateFixture(fixDef)
-
-        //this.body.DestroyFixture(fBody)
+        this.body.CreateFixture(fixDef)
 
         //initialize Crawlers
         this.leftCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, true))
         this.rightCrawler = new Crawler(this, this.prepareCrawlerConfig(this.config.crawlersConfig, false))
-    }
-
-    private createCrawler() {
-        /* var fixDef = new b2FixtureDef()
-         fixDef.density = 1.0
-         fixDef.friction = 0.5
-         fixDef.restitution = 0.4
-
-         var shape = new b2PolygonShape()
-         shape.SetAsOrientedBox(this.config.width / World.PX_IN_M / 2, this.config.height / World.PX_IN_M / 2, new b2Vec2(this.config.x / World.PX_IN_M, this.config.y / World.PX_IN_M), this.tank.body.GetAngle())
-         fixDef.shape = shape
-         this.tank.body.CreateFixture(fixDef)*/
     }
 
     private prepareCrawlerConfig(config:IRect, forLeft:boolean):IRect {
@@ -195,10 +178,8 @@ class Tank extends Unit {
             baseVector = [0, -1]
         } else if (accelerate == AccelerateType.BACKWARD) {
             if (this.getLocalVelocity()[1] < 0) {
-                //braking, but still moving forwards - increased force
                 baseVector = [0, 1.3]
             } else {
-                //going in reverse - less force
                 baseVector = [0, 0.7]
             }
         } else {
@@ -210,6 +191,14 @@ class Tank extends Unit {
         forceVector.Multiply(this.config.power)
         var position = this.body.GetWorldPoint(new b2Vec2(crawler.config.x / World.PX_IN_M, crawler.config.y / World.PX_IN_M))
         this.body.ApplyForce(this.body.GetWorldVector(forceVector), position)
+    }
+
+    private createVisual() {
+
+    }
+
+    private updateVisual() {
+
     }
 }
 
