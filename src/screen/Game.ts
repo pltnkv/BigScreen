@@ -7,6 +7,7 @@ import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
 export var LOCAL_DEBUG = true
+export var stage:PIXI.Container
 
 export function init():void {
     World.init()
@@ -32,13 +33,14 @@ export function addPlayers(players:Player[]):void {
 
 export function start() {
     console.log('Game started')
-    configureDebugDraw()
+    //configureDebugDraw()
+    configureRender()
     runUpdateLoop()
 }
 
 function configureDebugDraw() {
     var debugDraw = new b2DebugDraw()
-    debugDraw.SetSprite(UI.getCanvas().getContext("2d"))
+    debugDraw.SetSprite(UI.getDebugCanvas().getContext("2d"))
     debugDraw.SetDrawScale(World.PX_IN_M)
     debugDraw.SetFillAlpha(0.5)
     debugDraw.SetLineThickness(1.0)
@@ -46,22 +48,23 @@ function configureDebugDraw() {
     World.b2world.SetDebugDraw(debugDraw)
 }
 
+var renderer
 function configureRender() {
-    var renderer = PIXI.autoDetectRenderer(800, 600, {transparent: true})
+    renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {transparent: true})
     document.body.appendChild(renderer.view)
 
     // create the root of the scene graph
-    var stage = new PIXI.Container();
+    stage = new PIXI.Container()
 
     // create a texture from an image path
-    var texture = PIXI.Texture.fromImage('_assets/basics/bunny.png');
+    var texture = PIXI.Texture.fromImage('images/asserts/map.png')
 
     // create a new Sprite using the texture
-    var bunny = new PIXI.Sprite(texture);
+    var bunny = new PIXI.Sprite(texture)
 
     // center the sprite's anchor point
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
+    //bunny.anchor.x = 0.5;
+    //bunny.anchor.y = 0.5;
 
     // move the sprite to the center of the screen
     bunny.position.x = 200;
@@ -89,5 +92,6 @@ function runUpdateLoop() {
 
         //let box2d draw it's bodies
         World.b2world.DrawDebugData()
+        renderer.render(stage)
     }
 }

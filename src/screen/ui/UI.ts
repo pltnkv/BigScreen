@@ -8,16 +8,17 @@ export function showBigMessage(args) {
     //по центру экрана "победил username"
 }
 
-var canvasElement:HTMLCanvasElement
+var debugCanvasElement:HTMLCanvasElement
+var mainCanvasElement:HTMLCanvasElement
 
-export function getCanvas():HTMLCanvasElement {
-    if (!canvasElement) {
-        canvasElement = document.createElement("canvas");
-        canvasElement.setAttribute('width', window.innerWidth.toString())
-        canvasElement.setAttribute('height', window.innerHeight.toString())
-        document.body.appendChild(canvasElement);
+export function getDebugCanvas():HTMLCanvasElement {
+    if (!debugCanvasElement) {
+        debugCanvasElement = document.createElement("canvas");
+        debugCanvasElement.setAttribute('width', window.innerWidth.toString())
+        debugCanvasElement.setAttribute('height', window.innerHeight.toString())
+        document.body.appendChild(debugCanvasElement);
     }
-    return canvasElement
+    return debugCanvasElement
 }
 
 export function addText():UIText {
