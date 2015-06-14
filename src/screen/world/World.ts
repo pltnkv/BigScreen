@@ -76,10 +76,3 @@ export function update(deltaTime:number):void {
      }
      */
 }
-
-export function draw():void {
-    //todo отрисовываться могут не только объекты физического мира, например фоновые анимации или взрывы
-    for (var i = 0, l = units.length; i < l; i++) {
-        units[i].draw()
-    }
-}

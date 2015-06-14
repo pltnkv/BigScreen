@@ -4,6 +4,8 @@ import Player = require('screen/core/Player')
 import TankType = require('screen/world/units/types/TankType')
 import MapLoader = require('screen/world/map/MapLoader')
 import Layers = require('screen/graphics/Layers')
+import DrawableObjects = require('screen/graphics/DrawableObjects')
+import utils = require('screen/utils/utils')
 
 import b2World = Box2D.Dynamics.b2World
 import b2DebugDraw = Box2D.Dynamics.b2DebugDraw
@@ -11,7 +13,8 @@ import b2Vec2 = Box2D.Common.Math.b2Vec2
 
 var renderer:PIXI.PixiRenderer
 
-export var LOCAL_DEBUG = true
+var DEBUG_BOX2D_RENDER = !!utils.getParameterByName('b2render', false)
+export var LOCAL_DEBUG = !!utils.getParameterByName('local', true)
 export var stage
 
 export function init():void {
@@ -24,13 +27,15 @@ export function init():void {
 }
 
 function configureDebugDraw() {
-    var debugDraw = new b2DebugDraw()
-    debugDraw.SetSprite(UI.getDebugCanvas().getContext("2d"))
-    debugDraw.SetDrawScale(World.PX_IN_M)
-    debugDraw.SetFillAlpha(0.5)
-    debugDraw.SetLineThickness(1.0)
-    debugDraw.SetFlags(b2DebugDraw.e_shapeBit)
-    World.b2world.SetDebugDraw(debugDraw)
+    if (DEBUG_BOX2D_RENDER) {
+        var debugDraw = new b2DebugDraw()
+        debugDraw.SetSprite(UI.getDebugCanvas().getContext("2d"))
+        debugDraw.SetDrawScale(World.PX_IN_M)
+        debugDraw.SetFillAlpha(0.5)
+        debugDraw.SetLineThickness(1.0)
+        debugDraw.SetFlags(b2DebugDraw.e_shapeBit)
+        World.b2world.SetDebugDraw(debugDraw)
+    }
 }
 
 function configureRender() {
@@ -86,9 +91,11 @@ function runUpdateLoop() {
         World.b2world.Step(dt / 1000, 10, 8)
         World.b2world.ClearForces()
 
-        //let box2d draw it's bodies
-        World.b2world.DrawDebugData()
-        World.draw()
+        if (DEBUG_BOX2D_RENDER) {
+            World.b2world.DrawDebugData()
+        }
+
+        DrawableObjects.draw(dt)
         renderer.render(stage)
     }
 }

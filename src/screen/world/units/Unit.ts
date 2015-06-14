@@ -24,8 +24,5 @@ class Unit {
 
     update(deltaTime:number):void {
     }
-
-    draw():void {
-    }
 }
 export = Unit

@@ -25,7 +25,7 @@ export function getDebugCanvas():HTMLCanvasElement {
 export function getMainCanvas():HTMLCanvasElement {
     if (!mainCanvasElement) {
         mainCanvasElement = document.createElement("canvas")
-        debugCanvasElement.setAttribute('class', 'mainLayer')
+        mainCanvasElement.setAttribute('class', 'mainLayer')
         mainCanvasElement.setAttribute('width', window.innerWidth.toString())
         mainCanvasElement.setAttribute('height', window.innerHeight.toString())
         document.body.appendChild(mainCanvasElement)

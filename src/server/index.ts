@@ -77,7 +77,9 @@ io.on('connection', function (socket:SocketIO.Socket) {
     stdinProcessor.addSocket(socket)
 })
 
-//http.listen(3000, '192.168.0.104', function () {
-http.listen(3000, 'localhost', function () {
+var PORT = 3000
+var HOST_NAME = 'localhost'
+
+http.listen(PORT, HOST_NAME, function () {
     console.log('listening on *:3000')
 })

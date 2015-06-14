@@ -8,7 +8,8 @@ import Crawler = require('screen/world/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
 import IRect = require('screen/commons/types/IRect')
 import AccelerateType = require('screen/commons/types/AccelerateType')
-import HealthIndicator = require('screen/graphics/HealthIndicator')
+import HealthIndicator = require('screen/graphics/effects/HealthIndicator')
+import TankVisual = require('screen/graphics/units/TankVisual')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -33,13 +34,14 @@ class Tank extends Unit {
     private canFire = true
 
     private healthIndicator:HealthIndicator
+    private visual:TankVisual
 
     constructor(config:ITankConfig) {
         super(UnitName.TANK)
         this.config = config
         this.createBody()
         this.healthIndicator = new HealthIndicator(this)
-        this.createVisual()
+        this.visual = new TankVisual(this)
     }
 
     private createBody() {
@@ -191,14 +193,6 @@ class Tank extends Unit {
         forceVector.Multiply(this.config.power)
         var position = this.body.GetWorldPoint(new b2Vec2(crawler.config.x / World.PX_IN_M, crawler.config.y / World.PX_IN_M))
         this.body.ApplyForce(this.body.GetWorldVector(forceVector), position)
-    }
-
-    private createVisual() {
-
-    }
-
-    private updateVisual() {
-
     }
 }
 

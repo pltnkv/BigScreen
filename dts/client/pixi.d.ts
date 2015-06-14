@@ -178,7 +178,7 @@ declare module PIXI {
 
     export class AbstractFilter {
 
-        constructor(fragmentSrc: string[], uniforms: any);
+        constructor(fragmentSrc?: string[], uniforms?: any);
 
         dirty: boolean;
         padding: number;
@@ -1172,43 +1172,51 @@ declare module PIXI {
         setTexture(texture: Texture): void;
 
     }
+    export module filters {
 
-    export class TiltShiftFilter extends AbstractFilter {
+        export class TiltShiftFilter extends AbstractFilter {
 
-        blur: number;
-        gradientBlur: number;
-        start: number;
-        end: number;
+            blur: number;
+            gradientBlur: number;
+            start: number;
+            end: number;
 
-    }
+        }
 
-    export class TiltShiftXFilter extends AbstractFilter {
+        export class TiltShiftXFilter extends AbstractFilter {
 
-        blur: number;
-        gradientBlur: number;
-        start: number;
-        end: number;
+            blur: number;
+            gradientBlur: number;
+            start: number;
+            end: number;
 
-        updateDelta(): void;
+            updateDelta(): void;
 
-    }
+        }
 
-    export class TiltShiftYFilter extends AbstractFilter {
+        export class TiltShiftYFilter extends AbstractFilter {
 
-        blur: number;
-        gradientBlur: number;
-        start: number;
-        end: number;
+            blur: number;
+            gradientBlur: number;
+            start: number;
+            end: number;
 
-        updateDelta(): void;
+            updateDelta(): void;
 
-    }
+        }
 
-    export class TwistFilter extends AbstractFilter {
+        export class TwistFilter extends AbstractFilter {
 
-        angle: number;
-        offset: Point;
-        radius: number;
+            angle: number;
+            offset: Point;
+            radius: number;
+
+        }
+
+        export class DropShadowFilter extends AbstractFilter {
+            distance: number;
+            alpha: number;
+        }
 
     }
 

@@ -1,17 +1,15 @@
-import GraphicsObject = require('screen/graphics/GraphicsObject')
+import IDrawable = require('screen/graphics/IDrawable')
 import Tank = require('screen/world/units/Tank')
 
-class HealthIndicator extends GraphicsObject {
+class HealthIndicator implements IDrawable {
 
     private tank:Tank
 
     constructor(tank:Tank) {
-        super()
         this.tank = tank
     }
 
-    render() {
-
+    draw(dt:number):void {
     }
 }
 
