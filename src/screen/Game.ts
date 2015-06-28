@@ -5,6 +5,7 @@ import TankType = require('screen/world/units/types/TankType')
 import MapLoader = require('screen/world/map/MapLoader')
 import Layers = require('screen/graphics/Layers')
 import DrawableObjects = require('screen/graphics/DrawableObjects')
+import BonusType = require('screen/world/units/types/BonusType')
 import utils = require('screen/utils/utils')
 
 import b2World = Box2D.Dynamics.b2World
@@ -51,6 +52,9 @@ function configureRender() {
 function loadMap() {
     MapLoader.load()
     World.addBall({x: 500, y: 300})
+    World.addBonus({x: 100, y: 400}, BonusType.ARMOR)
+    World.addBonus({x: 200, y: 400}, BonusType.DAMAGE)
+    World.addBonus({x: 300, y: 450}, BonusType.HEALTH)
 }
 
 var gui:dat.GUI

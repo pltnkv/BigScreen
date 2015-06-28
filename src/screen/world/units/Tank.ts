@@ -3,6 +3,7 @@ import ITankConfig = require('screen/world/units/configs/ITankConfig')
 import World = require('screen/world/World')
 import Bullet = require('screen/world/units/Bullet')
 import Unit = require('screen/world/units/Unit')
+import BonusProcessor = require('screen/utils/BonusProcessor')
 import UnitName = require('screen/world/units/types/UnitName')
 import Crawler = require('screen/world/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
@@ -11,6 +12,8 @@ import AccelerateType = require('screen/commons/types/AccelerateType')
 import TankVisual = require('screen/graphics/units/TankVisual')
 import HealthIndicator = require('screen/graphics/effects/HealthIndicator')
 import FireExplosion = require('screen/graphics/effects/FireExplosion')
+import Bonus = require('screen/world/units/Bonus')
+import BonusType = require('screen/world/units/types/BonusType')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -206,6 +209,11 @@ class Tank extends Unit {
 
     getStartBulletPosition():b2Vec2 {
         return this.body.GetWorldPoint(new b2Vec2(0, -1.3))
+    }
+
+    applyBonus(bonus:Bonus):void {
+        bonus.removed = true
+        BonusProcessor.applyBonusToTank(this, bonus)
     }
 }
 

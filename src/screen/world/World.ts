@@ -7,6 +7,9 @@ import Block = require('screen/world/units/Block')
 import Unit = require('screen/world/units/Unit')
 import UnitsFactory = require('screen/world/units/UnitsFactory')
 import IPoint = require('screen/commons/types/IPoint')
+import BonusType = require('screen/world/units/types/BonusType')
+import Bonus = require('screen/world/units/Bonus')
+
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2World = Box2D.Dynamics.b2World
 
@@ -37,6 +40,10 @@ function createWalls() {
     addUnit(new Block({x: w / 2, y: h, width: w, height: 10}))
     addUnit(new Block({x: 0, y: h / 2, width: wallSize, height: h}))
     addUnit(new Block({x: w, y: h / 2, width: wallSize, height: h}))
+}
+
+export function addBonus(position:IPoint, bonusType:BonusType) {
+    addUnit(new Bonus(position, bonusType))
 }
 
 export function addBall(position:IPoint) {
