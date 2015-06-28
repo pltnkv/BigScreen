@@ -1,0 +1,70 @@
+{
+"frames": {
+	"tank-explosion1.png": {
+		"frame": {"x":321, "y":287, "w":74, "h":79},
+		"spriteSourceSize": {"x":16,"y":31,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion2.png": {
+		"frame": {"x":238, "y":88, "w":106, "h":98},
+		"spriteSourceSize": {"x":0,"y":25,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion3.png": {
+		"frame": {"x":129, "y":0, "w":108, "h":100},
+		"spriteSourceSize": {"x":0,"y":21,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion4.png": {
+		"frame": {"x":238, "y":0, "w":107, "h":87},
+		"spriteSourceSize": {"x":0,"y":24,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion5.png": {
+		"frame": {"x":245, "y":187, "w":103, "h":99},
+		"spriteSourceSize": {"x":10,"y":17,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion6.png": {
+		"frame": {"x":0, "y":252, "w":122, "h":116},
+		"spriteSourceSize": {"x":4,"y":7,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion7.png": {
+		"frame": {"x":0, "y":0, "w":128, "h":124},
+		"spriteSourceSize": {"x":0,"y":3,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion8.png": {
+		"frame": {"x":0, "y":125, "w":127, "h":126},
+		"spriteSourceSize": {"x":2,"y":0,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion9.png": {
+		"frame": {"x":123, "y":252, "w":121, "h":122},
+		"spriteSourceSize": {"x":5,"y":3,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion10.png": {
+		"frame": {"x":128, "y":125, "w":109, "h":112},
+		"spriteSourceSize": {"x":10,"y":8,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion11.png": {
+		"frame": {"x":245, "y":287, "w":75, "h":107},
+		"spriteSourceSize": {"x":22,"y":9,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	},
+	"tank-explosion12.png": {
+		"frame": {"x":345, "y":88, "w":53, "h":76},
+		"spriteSourceSize": {"x":25,"y":11,"w":129,"h":127},
+		"sourceSize": {"w":129,"h":127}
+	}
+
+},
+"meta": {
+	"image": "tank-exp.png",
+	"size": {"w": 399, "h": 395},
+	"scale": "1"
+}
+}

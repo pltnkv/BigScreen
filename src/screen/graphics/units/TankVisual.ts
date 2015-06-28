@@ -4,6 +4,7 @@ import IDrawable = require('screen/graphics/IDrawable')
 import DrawableObjects = require('screen/graphics/DrawableObjects')
 import Layers = require('screen/graphics/Layers')
 import LayerName = require('screen/graphics/LayerName')
+import TankExplosion = require('screen/graphics/effects/TankExplosion')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 
@@ -33,6 +34,9 @@ class TankVisual implements IDrawable {
 
     runDestroyAnimation():void {
         Layers.getLayer(LayerName.TANKS).removeChild(this.visual)
+
+        var pos:b2Vec2 = this.tank.body.GetWorldCenter()
+        new TankExplosion(pos.x * World.PX_IN_M, pos.y * World.PX_IN_M)
     }
 
     draw(dt:number):void {
