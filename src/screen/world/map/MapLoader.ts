@@ -4,7 +4,7 @@ import LayerName = require('screen/graphics/LayerName')
 import b2World = Box2D.Dynamics.b2World
 
 export function load() {
-    var texture = PIXI.Texture.fromImage('images/asserts/map.png')
+    var texture = PIXI.Texture.fromImage('images/assets/map.png')
 
     // create a new Sprite using the texture
     var bg = new PIXI.Sprite(texture)//todo создать отдельный объект Background

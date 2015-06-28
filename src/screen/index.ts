@@ -1,8 +1,12 @@
 import ServerConnection = require('screen/core/ServerConnection')
 import Game = require('screen/Game')
+import GraphicsLoader = require('screen/graphics/GraphicsLoader')
 
-Game.init()
-ServerConnection.connect()
+GraphicsLoader.load(() => {
+    Game.init()
+    ServerConnection.connect()
+})
+
 
 /** Задачи:
  * рендерить взрывы при попадании снаряда в препятствие

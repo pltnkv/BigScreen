@@ -19,7 +19,7 @@ class TankVisual implements IDrawable {
     }
 
     private createVisual() {
-        var texture = PIXI.Texture.fromImage('images/asserts/tank-blue.png')
+        var texture = PIXI.Texture.fromImage('images/assets/tank-blue.png')
         this.visual = new PIXI.Sprite(texture)
         this.visual.anchor = new PIXI.Point(0.5, 0.55)
 
@@ -29,6 +29,10 @@ class TankVisual implements IDrawable {
         this.visual.filters = [shadowFilter]
 
         Layers.getLayer(LayerName.TANKS).addChild(this.visual)
+    }
+
+    runDestroyAnimation():void {
+        Layers.getLayer(LayerName.TANKS).removeChild(this.visual)
     }
 
     draw(dt:number):void {

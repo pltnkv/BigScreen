@@ -8,8 +8,9 @@ import Crawler = require('screen/world/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
 import IRect = require('screen/commons/types/IRect')
 import AccelerateType = require('screen/commons/types/AccelerateType')
-import HealthIndicator = require('screen/graphics/effects/HealthIndicator')
 import TankVisual = require('screen/graphics/units/TankVisual')
+import HealthIndicator = require('screen/graphics/effects/HealthIndicator')
+import FireExplosion = require('screen/graphics/effects/FireExplosion')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -33,15 +34,21 @@ class Tank extends Unit {
     private rightCrawler:Crawler
     private canFire = true
 
-    private healthIndicator:HealthIndicator
     private visual:TankVisual
+    private fireExplosion:FireExplosion
+    private healthIndicator:HealthIndicator
 
     constructor(config:ITankConfig) {
         super(UnitName.TANK)
         this.config = config
         this.createBody()
-        this.healthIndicator = new HealthIndicator(this)
+        this.createVisuals()
+    }
+
+    private createVisuals() {
         this.visual = new TankVisual(this)
+        this.fireExplosion = new FireExplosion(this)
+        this.healthIndicator = new HealthIndicator(this)
     }
 
     private createBody() {
@@ -139,6 +146,7 @@ class Tank extends Unit {
         console.log('TANK.health', this.health)
         if (this.health <= 0) {
             this.removed = true
+            this.visual.runDestroyAnimation()
             console.log(this.player.id, 'TANK DESTROYED')
         }
     }
@@ -166,11 +174,12 @@ class Tank extends Unit {
             direction.Multiply(0.2)
             direction.NegativeSelf()
             this.body.ApplyImpulse(direction, this.body.GetWorldCenter())
+            this.fireExplosion.play()
         }
     }
 
     private updateCrawler(crawler:Crawler, accelerate:AccelerateType):void {
-        if(crawler.destroyed) {
+        if (crawler.destroyed) {
             //todo снижать мощность в зависимости от поврежденности
             return
         }
@@ -193,6 +202,10 @@ class Tank extends Unit {
         forceVector.Multiply(this.config.power)
         var position = this.body.GetWorldPoint(new b2Vec2(crawler.config.x / World.PX_IN_M, crawler.config.y / World.PX_IN_M))
         this.body.ApplyForce(this.body.GetWorldVector(forceVector), position)
+    }
+
+    getStartBulletPosition():b2Vec2 {
+        return this.body.GetWorldPoint(new b2Vec2(0, -1.3))
     }
 }
 

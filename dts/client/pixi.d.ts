@@ -142,12 +142,6 @@ declare module PIXI {
 
     }
 
-    export interface Loader {
-
-        load(): void;
-
-    }
-
     export interface MaskData {
 
         alpha: number;
@@ -767,27 +761,30 @@ declare module PIXI {
 
     }
 
-    export class MovieClip extends Sprite {
+    export module extras {
+        export class MovieClip extends Sprite {
 
-        static fromFrames(frames: string[]): MovieClip;
-        static fromImages(images: HTMLImageElement[]): HTMLImageElement;
+            static fromFrames(frames: string[]): MovieClip;
+            static fromImages(images: HTMLImageElement[]): HTMLImageElement;
 
-        constructor(textures: Texture[]);
+            constructor(textures: Texture[]);
 
-        animationSpeed: number;
-        currentFrame: number;
-        loop: boolean;
-        playing: boolean;
-        textures: Texture[];
-        totalFrames: number;
+            animationSpeed: number;
+            currentFrame: number;
+            loop: boolean;
+            playing: boolean;
+            textures: Texture[];
+            totalFrames: number;
 
-        gotoAndPlay(frameNumber: number): void;
-        gotoAndStop(frameNumber: number): void;
-        onComplete(): void;
-        play(): void;
-        stop(): void;
+            gotoAndPlay(frameNumber: number): void;
+            gotoAndStop(frameNumber: number): void;
+            onComplete(): void;
+            play(): void;
+            stop(): void;
 
+        }
     }
+
 
     export class NoiseFilter extends AbstractFilter {
 
@@ -1029,7 +1026,7 @@ declare module PIXI {
         tint: number;
 
         setTexture(texture: Texture): void;
-
+        destroy(destroyTexture?:boolean, destroyBaseTexture?:boolean):void
     }
 
     export class SpriteBatch extends DisplayObjectContainer {
@@ -1216,6 +1213,9 @@ declare module PIXI {
         export class DropShadowFilter extends AbstractFilter {
             distance: number;
             alpha: number;
+        }
+
+        export class ColorMatrixFilter extends AbstractFilter {
         }
 
     }
@@ -1906,9 +1906,14 @@ declare module PIXI {
 
         createSprite(slot: Slot, descriptor: { name: string }): Sprite[];
         update(dt: number): void;
-
     }
 
+    export class Loader {
+        add(name, url, options?):Loader;
+        load(callback:(loader?:Loader, resources?) => void):Loader;
+    }
+
+    export var loader:Loader
 }
 
 declare function requestAnimFrame(callback: Function): void;
