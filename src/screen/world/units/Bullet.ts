@@ -3,6 +3,7 @@ import IRect = require('screen/commons/types/IRect')
 import Unit = require('screen/world/units/Unit')
 import UnitName = require('screen/world/units/types/UnitName')
 import Tank = require('screen/world/units/Tank')
+import BulletVisual = require('screen/graphics/units/BulletVisual')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -18,6 +19,8 @@ class Bullet extends Unit {
 
     parentTank:Tank
     damage = 40
+
+    private visual:BulletVisual
 
     constructor(pos:b2Vec2, angle:number, direction:b2Vec2, parentTank:Tank) {
         super(UnitName.BULLET)
@@ -43,6 +46,14 @@ class Bullet extends Unit {
 
         direction.Multiply(SPEED)
         this.body.SetLinearVelocity(direction)
+
+        this.visual = new BulletVisual(this)
+    }
+
+    destroyBody():void {
+        super.destroyBody()
+        this.visual.runDestroyAnimation()
+        this.visual = null
     }
 }
 
