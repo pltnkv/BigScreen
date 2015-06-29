@@ -3,6 +3,7 @@ import IPoint = require('screen/commons/types/IPoint')
 import UnitName = require('screen/world/units/types/UnitName')
 import Unit = require('screen/world/units/Unit')
 import BonusType = require('screen/world/units/types/BonusType')
+import BonusVisual = require('screen/graphics/units/BonusVisual')
 
 import b2Vec2 = Box2D.Common.Math.b2Vec2
 import b2Body = Box2D.Dynamics.b2Body
@@ -17,10 +18,13 @@ class Bonus extends Unit {
 
     bonusType:BonusType
 
+    private visual:BonusVisual
+
     constructor(position:IPoint, bonusType:BonusType) {
         super(UnitName.BONUS)
         this.bonusType = bonusType
         this.createBody(position)
+        this.visual = new BonusVisual(this)
     }
 
     private createBody(position:IPoint) {
@@ -40,6 +44,12 @@ class Bonus extends Unit {
         fixDef.shape = new b2CircleShape(RADIUS_IN_PX / World.PX_IN_M)
 
         this.body.CreateFixture(fixDef)
+    }
+
+    destroyBody() {
+        super.destroyBody()
+        this.visual.runDestroyAnimation()
+        this.visual = null
     }
 }
 

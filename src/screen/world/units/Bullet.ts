@@ -18,13 +18,15 @@ var SPEED = 15
 class Bullet extends Unit {
 
     parentTank:Tank
-    damage = 40
+    damage:number
 
     private visual:BulletVisual
 
     constructor(pos:b2Vec2, angle:number, direction:b2Vec2, parentTank:Tank) {
         super(UnitName.BULLET)
         this.parentTank = parentTank
+        this.damage =  parentTank.config.damage
+
         //initialize body
         var def = new b2BodyDef()
         def.userData = this

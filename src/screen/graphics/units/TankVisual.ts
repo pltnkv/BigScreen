@@ -12,6 +12,7 @@ class TankVisual implements IDrawable {
 
     private tank:Tank
     private visual:PIXI.Sprite
+    private shadowFilter:PIXI.filters.DropShadowFilter
 
     constructor(tank:Tank) {
         this.tank = tank
@@ -24,12 +25,20 @@ class TankVisual implements IDrawable {
         this.visual = new PIXI.Sprite(texture)
         this.visual.anchor = new PIXI.Point(0.5, 0.55)
 
-        var shadowFilter = new PIXI.filters.DropShadowFilter()
-        shadowFilter.distance = 3
-        shadowFilter.alpha = 0.3
-        this.visual.filters = [shadowFilter]
+        this.shadowFilter = new PIXI.filters.DropShadowFilter()
+        this.shadowFilter.distance = 3
+        this.shadowFilter.alpha = 0.3
+        this.visual.filters = [this.shadowFilter]
 
         Layers.getLayer(LayerName.TANKS).addChild(this.visual)
+    }
+
+    activateBonus():void {
+        this.shadowFilter.alpha = 0.7
+    }
+
+    deactivateBonus():void {
+        this.shadowFilter.alpha = 0.3
     }
 
     runDestroyAnimation():void {

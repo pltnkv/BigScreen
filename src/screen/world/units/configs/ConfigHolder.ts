@@ -8,6 +8,8 @@ tanksConfigs[TankType.DEFAULT] = {
     angle: 0,
     power: 20,
     maxSpeed: 60,
+    damage: 40,
+    fireRate: 1000,
     crawlersConfig: {width: 12, height: 60, y: 0, x: 18}
 }
 

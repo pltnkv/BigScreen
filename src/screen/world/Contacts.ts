@@ -5,6 +5,7 @@ import Tank = require('screen/world/units/Tank')
 import Bullet = require('screen/world/units/Bullet')
 import Ball = require('screen/world/units/Ball')
 import Bonus = require('screen/world/units/Bonus')
+import BonusProcessor = require('screen/utils/BonusProcessor')
 
 import b2Contact = Box2D.Dynamics.Contacts.b2Contact
 import b2Fixture = Box2D.Dynamics.b2Fixture
@@ -19,7 +20,7 @@ export function init(regBeginContact, regPreSolve, regPostSolve) {
     regBeginContact(UnitName.TANK, UnitName.BONUS, (contact:b2Contact, tankFixture:b2Fixture, bonusFixture:b2Fixture) => {
         var tank:Tank = tankFixture.GetBody().GetUserData()
         var bonus:Bonus = bonusFixture.GetBody().GetUserData()
-        tank.applyBonus(bonus)
+        BonusProcessor.applyBonusToTank(tank, bonus)
     })
 
     regBeginContact(UnitName.BULLET, UnitName.TANK, (contact:b2Contact, bulletFixture:b2Fixture, tankFixture:b2Fixture) => {

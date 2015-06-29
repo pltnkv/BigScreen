@@ -6,6 +6,8 @@ class ITankConfig {
     angle:number
     power:number
     maxSpeed:number
+    fireRate:number
+    damage:number
     crawlersConfig:IPoint
 }
 

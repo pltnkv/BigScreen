@@ -3,7 +3,6 @@ import ITankConfig = require('screen/world/units/configs/ITankConfig')
 import World = require('screen/world/World')
 import Bullet = require('screen/world/units/Bullet')
 import Unit = require('screen/world/units/Unit')
-import BonusProcessor = require('screen/utils/BonusProcessor')
 import UnitName = require('screen/world/units/types/UnitName')
 import Crawler = require('screen/world/units/Crawler')
 import IPoint = require('screen/commons/types/IPoint')
@@ -22,17 +21,17 @@ import b2FixtureDef = Box2D.Dynamics.b2FixtureDef
 import b2Fixture = Box2D.Dynamics.b2Fixture
 import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
 
-var FIRE_RATE = 1000
-
 class Tank extends Unit {
 
     player:Player
     leftCrawlerAccelerate = AccelerateType.NONE
     rightCrawlerAccelerate = AccelerateType.NONE
     fire = false
+    armor = 1 //если значение меньше 1, урона наносится меньше
     health = 100
+    config:ITankConfig
 
-    private config:ITankConfig
+    private activeBonuses = 0
     private leftCrawler:Crawler
     private rightCrawler:Crawler
     private canFire = true
@@ -101,24 +100,6 @@ class Tank extends Unit {
         return [retv.x, retv.y]
     }
 
-    getSpeedKMH():number {
-        var velocity = this.body.GetLinearVelocity()
-        return (velocity.Length() / 1000) * 3600
-    }
-
-    setSpeed(speed:number):void {
-        /*
-         //todo may be
-         speed - speed in kilometers per hour
-         */
-        /* var velocity = this.body.GetLinearVelocity()
-         velocity = vectors.unit([velocity.x, velocity.y])
-         velocity = new box2d.b2Vec2(velocity[0] * ((speed * 1000.0) / 3600.0),
-         velocity[1] * ((speed * 1000.0) / 3600.0))
-         this.body.SetLinearVelocity(velocity)*/
-    }
-
-
     //возможно pos должен содержать уже приведенные размеры
     setPositionAndAngle(pos:IPoint, angle:number) {
         this.body.SetPositionAndAngle(new b2Vec2(pos.x / World.PX_IN_M, pos.y / World.PX_IN_M), angle)
@@ -131,6 +112,7 @@ class Tank extends Unit {
     }
 
     addDamage(damage:number, fixture:b2Fixture):void {
+        damage = damage * this.armor
         var bodyDamage:number
         if (this.leftCrawler.fixture == fixture) {
             bodyDamage = this.applyDamageToCrawler(this.leftCrawler, damage)
@@ -168,7 +150,7 @@ class Tank extends Unit {
             this.canFire = false
             setTimeout(() => {
                 this.canFire = true
-            }, FIRE_RATE)
+            }, this.config.fireRate)
 
             var bulletPos = this.body.GetWorldPoint(new b2Vec2(0, -1.4))
             var direction = this.body.GetWorldVector(new b2Vec2(0, -1))
@@ -211,9 +193,18 @@ class Tank extends Unit {
         return this.body.GetWorldPoint(new b2Vec2(0, -1.3))
     }
 
-    applyBonus(bonus:Bonus):void {
-        bonus.removed = true
-        BonusProcessor.applyBonusToTank(this, bonus)
+    activateBonus():void {
+        this.activeBonuses++
+        if (this.activeBonuses == 1) {
+            this.visual.activateBonus()
+        }
+    }
+
+    deactivateBonus():void {
+        this.activeBonuses--
+        if (this.activeBonuses == 0) {
+            this.visual.deactivateBonus()
+        }
     }
 }
 

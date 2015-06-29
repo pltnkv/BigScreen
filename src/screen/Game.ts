@@ -52,9 +52,11 @@ function configureRender() {
 function loadMap() {
     MapLoader.load()
     World.addBall({x: 500, y: 300})
-    World.addBonus({x: 100, y: 400}, BonusType.ARMOR)
+    World.addBonus({x: 100, y: 400}, BonusType.FIRERATE)
     World.addBonus({x: 200, y: 400}, BonusType.DAMAGE)
-    World.addBonus({x: 300, y: 450}, BonusType.HEALTH)
+    World.addBonus({x: 300, y: 450}, BonusType.SPEED)
+    World.addBonus({x: 400, y: 450}, BonusType.ARMOR)
+    World.addBonus({x: 500, y: 450}, BonusType.HEALTH)
 }
 
 var gui:dat.GUI
